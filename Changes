@@ -1,4 +1,7 @@
 Revision history for Perl extension Template::Plugin::LinkTo
 
+0.02  Tue Apr 29 18:24:00 2009
+	- fix pod
+
 0.01  Tue Apr 28 00:53:14 2009
 	- original version

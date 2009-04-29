@@ -5,7 +5,7 @@ use warnings;
 use parent 'Template::Plugin';
 use URI::Escape;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 my @HTML_OPTIONS = qw/href target confirm/;
 
@@ -53,62 +53,85 @@ Template::Plugin::LinkTo - like link_to in Ruby on Rails
 =head1 SYNOPSIS
 
 Input:
-    [% USE LinkTo -%]
-    [% args = {
-        href => '/link/to',
-    } -%]
-    [% LinkTo.link_to('link_text', args) %]
+
+  [% USE LinkTo -%]
+  [% args = {
+      href => '/link/to',
+  } -%]
+  [% LinkTo.link_to('link_text', args) %]
 
 Output:
-    <a href="/link/to">link_text</a>
+
+  <a href="/link/to">link_text</a>
 
 Input:
-    [% USE LinkTo -%]
-    [% args = {
-        href => '/link/to',
-        hoge => 'huga',
-        foo => 'bar',
-    } -%]
-    [% LinkTo.link_to('link_text', args) %]
+
+  [% USE LinkTo -%]
+  [% args = {
+      href => '/link/to',
+      hoge => 'huga',
+      foo  => 'bar',
+  } -%]
+  [% LinkTo.link_to('link_text', args) %]
 
 Output:
-    <a href="/link/to?foo=bar&hoge=huga">link_text</a>
+
+  <a href="/link/to?foo=bar&hoge=huga">link_text</a>
 
 Input:
-    [% USE LinkTo -%]
-    [% args = {
-        href => '/link/to',
-        hoge => 'huga',
-        target => '_blank',
-    } -%]
-    [% LinkTo.link_to('link_text', args) %]
+
+  [% USE LinkTo -%]
+  [% args = {
+      href   => '/link/to',
+      hoge   => 'huga',
+      target => '_blank',
+  } -%]
+  [% LinkTo.link_to('link_text', args) %]
 
 Output:
-    <a href="/link/to?hoge=huga" target="_blank">link_text</a>
+
+  <a href="/link/to?hoge=huga" target="_blank">link_text</a>
 
 Input:
-    [% USE LinkTo -%]
-    [% args = {
-        href => '/link/to',
-        hoge => 'huga',
-        target => '_blank',
-        confirm => 'really ?',
-    } -%]
-    [% LinkTo.link_to('link_<br />text', args) %]
+
+  [% USE LinkTo -%]
+  [% args = {
+      href    => '/link/to',
+      hoge    => 'huga',
+      target  => '_blank',
+      confirm => 'really ?',
+  } -%]
+  [% LinkTo.link_to('link_<br />text', args) %]
 
 Output:
-    <a href="/link/to?hoge=huga" target="_blank" onclick="return confirm('really ?');">link_%3Cbr%20%2F%3Etext</a>
+
+  <a href="/link/to?hoge=huga" target="_blank" onclick="return confirm('really ?');">link_%3Cbr%20%2F%3Etext</a>
 
 Input:
-    [% USE LinkTo -%]
-    [% args = {
-    } -%]
-    [% LinkTo.link_to('link_text', args) %]
+
+  [% USE LinkTo -%]
+  [% args = {
+  } -%]
+  [% LinkTo.link_to('link_text', args) %]
 
 Output:
-    link_text
 
+  link_text
+
+
+=head2 Sample with DBIx::Class::ResultSet
+
+  [% USE LinkTo -%]
+  [%- WHILE (u = users.next) -%]
+  [% args = {
+      href => "user/${u.id}",
+      hoge => 'huga',
+      foo  => 'bar',
+  } -%]
+  [% LinkTo.link_to(u.nickname, args) %]
+  [%- END %]
  
+
 =head1 DESCRIPTION
 
 Template::Plugin::LinkTo is like link_to in Ruby on Rails, but NOT same at all.
@@ -119,8 +142,10 @@ L<Template>, L<Template::Plugin>
 
 =head1 AUTHOR
 
-Tomoya Hirano, E<lt>hirafoo@gmail.comE<gt>
+Tomoya Hirano, E<lt>hirafoo atmk gmail.comE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
 This library is free software; you can redistribute it and/or modify
+
+=cut
