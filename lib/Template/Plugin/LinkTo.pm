@@ -1,24 +1,27 @@
 package Template::Plugin::LinkTo;
 use strict;
 use warnings;
+use base 'Template::Plugin';
 
-use parent 'Template::Plugin';
-use URI::Escape;
-
-our $VERSION = '0.03';
-
+our $VERSION = '0.04';
 my @HTML_OPTIONS = qw/href target confirm/;
+
+my %escaped = ( '&' => 'amp', '<' => 'lt', '>' => 'gt', '"' => 'quot' );
+sub escape {
+    my $str = shift or return '';
+    $str =~ s{([&<>"])(?!amp;)}{'&' . $escaped{$1} . ';'}msxgeo;
+    $str;
+}
 
 sub link_to {
     my ($self, $text, $opt) = @_;
-    $text = uri_escape $text;
 
+    $text = escape $text;
     my $result = $text;
 
     if (my $href = $opt->{href}) {
         my $target  = $opt->{target} ? qq{target="$opt->{target}"} : '';
         my $confirm = $opt->{confirm} ? qq{onclick="return confirm('$opt->{confirm}');"} : ''; #"
-        $result = qq{<a href="$href" $target $confirm>$text</a>};
 
         for my $key (@HTML_OPTIONS) {
             delete $opt->{$key};
@@ -43,7 +46,6 @@ sub link_to {
 }
 
 1;
-
 
 __END__
 =head1 NAME

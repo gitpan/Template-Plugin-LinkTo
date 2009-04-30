@@ -73,9 +73,9 @@ __END__
     target => '_blank',
     confirm => 'Are you sure?',
 } -%]
-[% LinkTo.link_to('link_<br />text', args) %]
+[% LinkTo.link_to('link_text', args) %]
 --expect--
-<a href="/link/to" target="_blank" onclick="return confirm('Are you sure?');">link_%3Cbr%20%2F%3Etext</a>
+<a href="/link/to" target="_blank" onclick="return confirm('Are you sure?');">link_text</a>
 
 --test--
 [% USE LinkTo -%]
@@ -85,9 +85,9 @@ __END__
     target => '_blank',
     confirm => 'really ?',
 } -%]
-[% LinkTo.link_to('link_<br />text', args) %]
+[% LinkTo.link_to('link_<br />a&b<br />"text"', args) %]
 --expect--
-<a href="/link/to?hoge=huga" target="_blank" onclick="return confirm('really ?');">link_%3Cbr%20%2F%3Etext</a>
+<a href="/link/to?hoge=huga" target="_blank" onclick="return confirm('really ?');">link_&lt;br /&gt;a&amp;b&lt;br /&gt;&quot;text&quot;</a>
 
 --test--
 [% USE LinkTo -%]
