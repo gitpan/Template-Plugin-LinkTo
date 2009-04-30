@@ -5,7 +5,7 @@ use warnings;
 use parent 'Template::Plugin';
 use URI::Escape;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 my @HTML_OPTIONS = qw/href target confirm/;
 
@@ -142,7 +142,7 @@ L<Template>, L<Template::Plugin>
 
 =head1 AUTHOR
 
-Tomoya Hirano, E<lt>hirafoo atmk gmail.comE<gt>
+Tomoya Hirano, E<lt>hirafoo@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
