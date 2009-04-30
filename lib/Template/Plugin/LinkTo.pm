@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use base 'Template::Plugin';
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 my @HTML_OPTIONS = qw/href target confirm/;
 
 my %escaped = ( '&' => 'amp', '<' => 'lt', '>' => 'gt', '"' => 'quot' );
@@ -103,11 +103,11 @@ Input:
       target  => '_blank',
       confirm => 'really ?',
   } -%]
-  [% LinkTo.link_to('link_<br />text', args) %]
+  [% LinkTo.link_to('link_<br />a&b<br />"text"', args) %]
 
 Output:
 
-  <a href="/link/to?hoge=huga" target="_blank" onclick="return confirm('really ?');">link_%3Cbr%20%2F%3Etext</a>
+  <a href="/link/to?hoge=huga" target="_blank" onclick="return confirm('really ?');">link_&lt;br /&gt;a&amp;b&lt;br /&gt;&quot;text&quot;</a>
 
 Input:
 
