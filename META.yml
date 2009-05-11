@@ -1,19 +1,28 @@
---- #YAML:1.0
-name:               Template-Plugin-LinkTo
-version:            0.07
-abstract:           ~
-author:  []
-license:            unknown
-distribution_type:  module
+---
+abstract: 'like link_to in Ruby on Rails'
+author:
+  - 'Tomoya Hirano, <hirafoo@cpan.org>'
+build_requires:
+  ExtUtils::MakeMaker: 6.42
+  Test::More: 0
 configure_requires:
-    ExtUtils::MakeMaker:  0
-requires:
-    Test::More:  0.32
-no_index:
-    directory:
-        - t
-        - inc
-generated_by:       ExtUtils::MakeMaker version 6.46
+  ExtUtils::MakeMaker: 6.42
+distribution_type: module
+generated_by: 'Module::Install version 0.87'
+license: unknown
 meta-spec:
-    url:      http://module-build.sourceforge.net/META-spec-v1.4.html
-    version:  1.4
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Template-Plugin-LinkTo
+no_index:
+  directory:
+    - inc
+    - t
+requires:
+  Template: 0
+  Template::Plugin: 0
+  Template::Test: 0
+  URI::Escape: 0
+resources:
+  repository: http://github.com/hirafoo/Template-Plugin-LinkTo/tree/master
+version: 0.08
