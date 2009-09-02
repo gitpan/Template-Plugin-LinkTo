@@ -3,8 +3,8 @@ use strict;
 use warnings;
 use base 'Template::Plugin';
 
-our $VERSION = '0.08';
-my @HTML_OPTIONS = qw/href target confirm/;
+our $VERSION = '0.091';
+my @HTML_OPTIONS = qw/href target confirm title img/;
 
 my %escaped = ( '&' => 'amp', '<' => 'lt', '>' => 'gt', '"' => 'quot' );
 sub escape {
@@ -16,35 +16,38 @@ sub escape {
 sub link_to {
     my ($self, $text, $opt) = @_;
 
-    $text = escape $text;
+    $text = $opt->{img} ? qq{<img src="$opt->{img}" />} : escape $text; #"
     my $result = $text;
 
     if (my $href = escape $opt->{href}) {
-        my $target  = ($opt->{target} = escape $opt->{target}) 
-                      ? qq{target="$opt->{target}"} 
+        my $target  = ($opt->{target} = escape $opt->{target})
+                      ? qq/target="$opt->{target}"/
                       : '';
         my $confirm = ($opt->{confirm} = escape $opt->{confirm})
-                      ? qq{onclick="return confirm('$opt->{confirm}');"}
-                      : ''; #"
+                      ? qq/onclick="return confirm('$opt->{confirm}');"/
+                      : '';
+        my $title   = ($opt->{title} = escape $opt->{title})
+                      ? qq/title="$opt->{title}"/
+                      : '';
 
         for my $key (@HTML_OPTIONS) {
             delete $opt->{$key};
         }
-        
+
         my $params;
         for my $key (sort keys %$opt) {
-            $params .= qq{&$key=$opt->{$key}};
+            $params .= qq/&$key=$opt->{$key}/;
         }
         if ($params) {
             $params = escape $params;
             $href .= $params;
-            $href  =~ s{&amp;}{?}
-                if $href !~ m{\?};
+            $href  =~ s/&amp;/?/
+                if $href !~ m/\?/;
         }
 
-        $result = qq{<a href="$href" $target $confirm>$text</a>};
-        $result =~ s{\s{2,}}{};
-        $result =~ s{\s>}{>};
+        $result = qq{<a href="$href" $target $confirm $title>$text</a>};
+        $result =~ s/\s{2,}/ /g;
+        $result =~ s/\s>/>/;
     }
 
     return $result;
